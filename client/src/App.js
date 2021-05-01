@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as CONSTANTS from './constants/Constants';
+import './styles/global.scss';
 
 const Login = lazy(() => import ('./pages/Login'));
 function App() {
