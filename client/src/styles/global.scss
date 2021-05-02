@@ -7,11 +7,15 @@
 *::after {
   margin: 0;
   padding: 0;
-  box-sizing: inherit;
+  box-sizing: border-box;
+
 }
 
 html {
-    box-sizing: border-box;
-    font-size: 62.5%;
-    background-color: $page-color;
-  }
+
+  font-size: 62.5%;
+  background-color: $page-color;
+  box-sizing: border-box;
+//   margin: 0;
+//   padding: 0;
+}

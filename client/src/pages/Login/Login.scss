@@ -1,0 +1,62 @@
+@use '../../styles/partials/mixins' as *;
+@use '../../styles/partials/typography' as *;
+@use '../../styles/partials/variables' as *;
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: $mobile-spacing;
+  height: 94vh;
+
+  &__logo {
+    height: 40vh;
+    margin-bottom: 4rem;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input {
+    box-sizing: border-box;
+    width: 250px;
+    height: 30px;
+    border: none;
+    border-bottom: 0.5rem solid #000000;
+    background: $page-color;
+    outline: none;
+    color: $placeholder-color;
+    margin-bottom: 1.5rem;
+  }
+  &__input:focus {
+    border-bottom: 5px solid $inter-color;
+  }
+
+  &__login {
+    height: 4rem;
+    line-height: 3rem;
+    padding: 0 2rem;
+    background: black;
+    font-family: "Krona";
+    font-size: 1.2rem;
+    color: white;
+    letter-spacing: 0.2rem;
+    transition: 0.2s all ease-in-out;
+    outline: none;
+    border: 0.1rem solid rgba(0, 0, 0, 1);
+    box-shadow: 3px 3px 1px #ffffff, 3px 3px 1px 1px rgba(0, 0, 0, 1);
+  }
+  &__login:hover {
+  background: $inter-color;
+  color: white;
+  border: 1px solid #000000;
+  }
+
+}
