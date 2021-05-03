@@ -5,26 +5,58 @@ import FirebaseContext from "../../context/firebase";
 import logo from "../../assets/images/plated-logo.PNG";
 import "../SignUp/SignUp.scss";
 import * as CONSTANTS from "../../constants/Constants";
-import {doesUserNameExist} from '../../services/firebase';
+import { doesUsernameExist } from "../../services/firebase";
 
 export default function SignUp() {
   const history = useHistory();
   const { firebase } = useContext(FirebaseContext);
   //setting state
-  const [username, setUsername] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   //validation
   const isInvalid = !password || !email; //may need to take that out.
+
   const handleSignUp = async (event) => {
     event.preventDefault();
-    
-    const userNameExists = await doesUserNameExist(username);
-    try {
-    } catch (error) {}
+
+    const usernameExists = await doesUsernameExist(username);
+    console.log('usernameExists', usernameExists);
+    if (!usernameExists) {
+      try {
+        const createdUserResult = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password);
+
+        //authentication with firebase
+        await createdUserResult.user.updateProfile({
+          displayName: username,
+        });
+
+        //firebase create a document
+        await firebase.firestore().collection("users").add({
+          userId: createdUserResult.user.uid,
+          username: username.toLowerCase(),
+          fullName,
+          email: email.toLowerCase(),
+          following: [],
+          dateCreated: Date.now(),
+        });
+
+        history.push(CONSTANTS.FEED);
+      } catch (error) {
+        setFullName("");
+        setPassword("");
+        setEmail("");
+        setError(error.message);
+      }
+    } else {
+      setUsername("");
+      setError("The username is claimed, please try another");
+    }
   };
   //insert plated logo in the title
   useEffect(() => {
@@ -36,8 +68,12 @@ export default function SignUp() {
       <img src={logo} alt="Plated Logo" className="sign-up__logo"></img>
       <div className="sign-up__container">
         {error && <p className="error__message">{error}</p>}
-        <form className="sign-up__form" name="sign-upForm" onSubmit={handleSignUp}>
-        <input
+        <form
+          className="sign-up__form"
+          name="sign-upForm"
+          onSubmit={handleSignUp}
+        >
+          <input
             className="sign-up__input"
             name="userName"
             type="text"
@@ -45,7 +81,7 @@ export default function SignUp() {
             onChange={({ target }) => setUsername(target.value)}
             value={username}
           />
-           <input
+          <input
             className="sign-up__input"
             name="fullName"
             type="text"
