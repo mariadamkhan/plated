@@ -2,7 +2,7 @@
 @use '../../styles/partials/typography' as *;
 @use '../../styles/partials/variables' as *;
 
-.login {
+.sign-up {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,7 +11,7 @@
   height: 94vh;
 
   &__logo {
-    height: 40vh;
+    height: 30vh;
     margin-bottom: 4rem;
   }
   &__container {
