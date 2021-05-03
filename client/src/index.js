@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import FirebaseContext from "./context/firebase";
-import {firebase, FieldValue} from "./lib/firebase";
+import FirebaseProvider from "./provider/FirebaseProvider";
 
 ReactDOM.render(
-  <FirebaseContext.Provider value={{ firebase, FieldValue }}>
+  // TODO: remove context
+  <FirebaseProvider>
     <App />
-  </FirebaseContext.Provider>,
+  </FirebaseProvider>,
   document.getElementById("root")
 );

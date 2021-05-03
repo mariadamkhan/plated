@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
-import FirebaseContext from "../../context/firebase";
+import { useState,  useEffect } from "react";
+import firebase from "firebase/app";
 import logo from "../../assets/images/plated-logo.PNG";
 import "../SignUp/SignUp.scss";
 import * as CONSTANTS from "../../constants/Constants";
@@ -9,7 +9,6 @@ import { doesUsernameExist } from "../../services/firebase";
 
 export default function SignUp() {
   const history = useHistory();
-  const { firebase } = useContext(FirebaseContext);
   //setting state
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");

@@ -1,26 +1,37 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
-import FirebaseContext from "../../context/firebase";
+//import FirebaseContext from "../../context/firebase";
 import logo from "../../assets/images/plated-logo.PNG";
 import "./Login.scss";
 import * as CONSTANTS from '../../constants/Constants';
+import { useFirebaseContext } from "../../provider/FirebaseProvider";
 
 export default function Login() {
   const history = useHistory();
-  const { firebase } = useContext(FirebaseContext);
+   const { signInUser } = useFirebaseContext()
   //setting state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+
+
   //validation
-  const isInvalid = !password || !email; //may need to take that out.
+  // const isInvalid = !password || !email; //may need to take that out.
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-        await firebase.auth().signInWithEmailAndPassword(email, password);
+      const {err} = await signInUser(email,password)
+      console.log("🚀 ~ file: Login.jsx ~ line 27 ~ handleLogin ~ err", err)
+        //await firebase.auth().signInWithEmailAndPassword(email, password);
         history.push(CONSTANTS.FEED);
+        if(err){
+          setEmail('');
+          setPassword('');
+          setError(err.message);
+
+        }
     } catch (error) {
         setEmail('');
         setPassword('');

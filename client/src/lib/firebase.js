@@ -1,4 +1,4 @@
-import Firebase from "firebase/app";
+import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
@@ -9,8 +9,10 @@ const config = {
   storageBucket: "plated-d6982.appspot.com",
   messagingSenderId: "1002520181849",
   appId: "1:1002520181849:web:3815f6605c96953ff10548",
-};
-const firebase = Firebase.initializeApp(config);
-const { FieldValue } = Firebase.firestore;
+}; firebase.initializeApp(config);
+const { FieldValue } = firebase.firestore;
 
-export { firebase, FieldValue };
+export { FieldValue };
+export const fireAuth = firebase.auth();
+export const fireDB = firebase.firestore();
+// export const fireStorage = firebase.storage();
