@@ -5,8 +5,10 @@ import FirebaseProvider from "./provider/FirebaseProvider";
 
 ReactDOM.render(
   // TODO: remove context
-  <FirebaseProvider>
-    <App />
-  </FirebaseProvider>,
+  <React.StrictMode>
+    <FirebaseProvider>
+      <App />
+    </FirebaseProvider>
+  </React.StrictMode>,
   document.getElementById("root")
 );

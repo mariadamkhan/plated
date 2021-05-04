@@ -1,44 +1,14 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
-//import FirebaseContext from "../../context/firebase";
+import { Link, useHistory } from "react-router-dom"; //TODO: use history to be directed to the feed page
+import { useContext, useEffect } from "react";
 import logo from "../../assets/images/plated-logo.PNG";
 import "./Login.scss";
-import * as CONSTANTS from '../../constants/Constants';
-import { useFirebaseContext } from "../../provider/FirebaseProvider";
+import * as CONSTANTS from "../../constants/Constants";
+import { firebaseContext } from "../../provider/FirebaseProvider";
 
-export default function Login() {
-  const history = useHistory();
-   const { signInUser } = useFirebaseContext()
-  //setting state
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+function Login() {
+  const { signInUser } = useContext(firebaseContext);
 
-
-
-  //validation
-  // const isInvalid = !password || !email; //may need to take that out.
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    try {
-      const {err} = await signInUser(email,password)
-      console.log("🚀 ~ file: Login.jsx ~ line 27 ~ handleLogin ~ err", err)
-        //await firebase.auth().signInWithEmailAndPassword(email, password);
-        history.push(CONSTANTS.FEED);
-        if(err){
-          setEmail('');
-          setPassword('');
-          setError(err.message);
-
-        }
-    } catch (error) {
-        setEmail('');
-        setPassword('');
-        setError(error.message);
-    }
-  };
-  //insert plated logo in the title
   useEffect(() => {
     document.title = "Plated Login";
   }, []);
@@ -47,23 +17,18 @@ export default function Login() {
     <section className="login">
       <img src={logo} alt="Plated Logo" className="login__logo"></img>
       <div className="login__container">
-        {error && <p className="error__message">{error}</p>}
-        <form className="login__form" name="loginForm" onSubmit={handleLogin}>
+        <form className="login__form" name="loginForm" onSubmit={signInUser}>
           <input
             className="login__input"
-            name="email"
+            name="emailEntry"
             type="email"
             placeholder="Email"
-            onChange={({ target }) => setEmail(target.value)}
-            value={email}
           />
           <input
             className="login__input"
-            name="password"
+            name="passwordEntry"
             type="password"
             placeholder="Password"
-            onChange={({ target }) => setPassword(target.value)}
-            value={password}
           />
           <button className="login__login" type="submit">
             Login
@@ -81,3 +46,5 @@ export default function Login() {
     </section>
   );
 }
+
+export default Login;
