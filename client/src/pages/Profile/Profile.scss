@@ -5,38 +5,63 @@
 .profile {
   display: flex;
   flex-direction: column;
-  margin: 1rem $mobile-spacing;
-  &__info {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-  }
+  margin-top: 1rem;
+  font-family: "Barlow";
+
   &__avatar {
-    width: 5rem;
-    height: 5em;
+    display: flex;
+    margin: 0 auto;
+    width: 6rem;
+    height: 6rem;
     border-radius: 50%;
   }
   &__name {
-    font-size: 2rem;
-    font-family: "Krona";
-    margin-left: $extra-tiny;
+    font-size: $td-subheader;
+    font-family: "Barlow";
+    font-weight: 500;
+    margin-top: $extra-tiny;
+    display: flex;
+    justify-content: center;
   }
   &__metrics {
     display: flex;
     flex-direction: row;
-    margin: $extra-tiny 0 0 $huge;
-  }
-  &__posts-posts {
-    font-weight: 400;
-    font-size: $m-table-header;
+    justify-content: center;
+    margin-left: 1rem;
   }
   &__posts {
-    font-weight: 600;
     margin-right: 1rem;
-    font-size: $m-table-header;
+    font-size: $m-labels;
   }
   &__city {
-    margin: $extra-tiny 0 0 $huge;
-      @extend .profile__posts;
+    margin-top: $extra-tiny;
+    text-align: center;
+    font-size: $m-labels;
+  }
+  &__post {
+    margin: 0 $mobile-spacing;
+    padding-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    //   margin-top: 2rem;
+  }
+
+  &__resto-card {
+    display: flex;
+    flex-direction: column;
+    width: 49%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.37);
+    margin-bottom: 1rem;
+  }
+
+  &__post-img {
+    border: $cell-separator;
+    box-shadow: $box-shadow-page;
+  }
+  &__post-name {
+    padding: 1rem 0.5rem 0;
+    font-size: 1.3rem;
+    font-weight: 300;
   }
 }

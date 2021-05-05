@@ -46,3 +46,41 @@
   src: url("../../assets/fonts/Montserrat-ExtraBold.woff") format("woff");
   font-weight: 800;
 }
+
+//Barlow
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../../assets/fonts/Barlow-Regular.woff") format("woff");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../../assets/fonts/Barlow-Light.woff") format("woff");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../../assets/fonts/Barlow-ExtraLight.woff") format("woff");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../../assets/fonts/Barlow-Medium.woff") format("woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../../assets/fonts/Barlow-SemiBold.woff") format("woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../../assets/fonts/Barlow-Bold.woff") format("woff");
+  font-weight: 700;
+}

@@ -1,0 +1,84 @@
+@use '../../styles/partials/mixins' as *;
+@use '../../styles/partials/typography' as *;
+@use '../../styles/partials/variables' as *;
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+.prof-nav {
+  display: flex;
+  flex-direction: row;
+  height: 3rem;
+  margin-top: 1rem;
+  box-sizing: border-box;
+  font-size: 1.3rem;
+  font-weight: 400;
+  border-top: 0.3rem solid black;
+
+  &__list {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    width: 100%;
+    height: 100%;
+  }
+  &__item-posts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    width: 50%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+
+    &:before {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      content: "";
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: $error;
+      transform-origin: 0 bottom 0;
+      transform: scaleY(0);
+      transition: 0.4s ease-out;
+    }
+
+    &:hover {
+      .prof-nav__link {
+        color: white;
+      }
+      &:before {
+        transform: scaleY(1);
+      }
+    }
+  }
+  &__item-bucket {
+    @extend .prof-nav__item-posts;
+    background-color: $page-color;
+
+    &:before {
+      background-color: $inter-color;
+    }
+  }
+  &__link {
+    text-decoration: none;
+    color: black;
+  }
+
+  &__text {
+    position: relative;
+    transition: 0.4s ease-out;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+  }
+  &__text--posts {
+    @extend .prof-nav__text;
+    color: white;
+  }
+}

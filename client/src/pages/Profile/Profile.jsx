@@ -5,6 +5,7 @@ import {
 } from "../../provider/FirebaseProvider";
 import { useContext, useEffect } from "react";
 import "./Profile.scss";
+import ProfileNav from "../../components/ProfileNav/ProfileNav";
 
 const Profile = () => {
   const { userData, getRestaurantDetails, restDetails } = useContext(
@@ -51,30 +52,33 @@ function ProfileContent({ userInfo }) {
   return (
     <section className="profile">
       {/* profile section, incl image + user data */}
-      <div className="profile_user">
+      <div className="profile__user">
         <div className="profile__info">
           <img className="profile__avatar" src={userAvatar} alt="User Avatar" />
           <p className="profile__name">{fullName}</p>
         </div>
         <div className="profile__metrics">
-          <p className="profile__posts">{restoIdsList.length} <span className="profile__posts-posts">posts</span></p>
-          <p className="profile__posts">{followers.length} <span className="profile__posts-posts">followers</span></p>
-          <p className="profile__posts">{following.length} <span className="profile__posts-posts">following</span></p>
+          <p className="profile__posts">{restoIdsList.length} posts</p>
+          <p className="profile__posts">{followers.length} followers</p>
+          <p className="profile__posts">{following.length} following</p>
         </div>
         <div className="profile__location">
           <p className="profile__city">{city}</p>
         </div>
       </div>
+      <ProfileNav />
 
       {/* restaurant posts */}
       <div className="profile__post">
         {restosList.map((resto) => {
           return (
             <>
-              <p className="profile__post-name" key={resto.id}>
-                {resto.restoName}
-              </p>
-              <img className="profile__post-img" src={resto.restoImgs[0]} />
+              <div className="profile__resto-card">
+                <img className="profile__post-img" src={resto.restoImgs[0]} />
+                <p className="profile__post-name" key={resto.id}>
+                  {resto.restoName}
+                </p>
+              </div>
             </>
           );
         })}

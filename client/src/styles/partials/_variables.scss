@@ -2,8 +2,9 @@
 $page-color: #f7f8f9;
 $placeholder-color: #5c667e;
 $inter-color:#005689;
+$border-color: #bdc5d5;
 $hover: #f0f08d;
-$error: #fa2121;
+$error: #D02602;
 
 // font-sizes
 $m-header: 2.8rem;
@@ -33,3 +34,6 @@ $medium: 3.2rem;
 $large: 4rem;
 $extra-large: 4.8rem;
 $huge: 5.6rem;
+
+$cell-separator: 1px solid #b4b3b35e;
+$box-shadow-page: 0rem 0.1rem 1.5rem rgba(0, 0, 0, 0.15);
