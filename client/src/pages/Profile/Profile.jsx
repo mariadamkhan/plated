@@ -6,17 +6,12 @@ import {
 import { useContext, useEffect } from "react";
 import "./Profile.scss";
 import ProfileNav from "../../components/ProfileNav/ProfileNav";
+import Nav from "../../components/Nav/Nav";
 
 const Profile = () => {
   const { userData, getRestaurantDetails, restDetails } = useContext(
     firebaseContext
   );
-  console.log(restDetails);
-  console.log(
-    "🚀 ~ file: Profile.jsx ~ line 11 ~ Profile ~ userData",
-    userData
-  );
-
   const ready = Boolean(userData?.userInfo);
 
   return !ready ? null : (
@@ -28,7 +23,9 @@ export default Profile;
 
 function ProfileContent({ userInfo }) {
   const [restosList, setRestosList] = useState([]);
-
+  const { userData, getRestaurantDetails, restDetails } = useContext(
+    firebaseContext
+  );
   const {
     fullName,
     restoList: restoIdsList,
@@ -42,8 +39,7 @@ function ProfileContent({ userInfo }) {
 
   // fetch many restaurants on mount
   useEffect(() => {
-    getManyRestaurantDetails(restoIdsList).then((resp) => {
-      console.log("🚀 ~ file: Profile.jsx ~ line 36 ~ .then ~ resp", resp);
+    getManyRestaurantDetails(userData.userInfo.restoList).then((resp) => {
       setRestosList(resp);
     });
   }, [restoIdsList]);
@@ -71,6 +67,7 @@ function ProfileContent({ userInfo }) {
       {/* restaurant posts */}
       <div className="profile__post">
         {restosList.map((resto) => {
+          console.log("🚀 ~ file: Profile.jsx ~ line 70 ~ {restosList.map ~ resto", resto)
           return (
             <>
               <div className="profile__resto-card">
@@ -83,6 +80,7 @@ function ProfileContent({ userInfo }) {
           );
         })}
       </div>
+      <Nav />
     </section>
   );
 }

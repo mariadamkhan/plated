@@ -111,6 +111,10 @@ function FirebaseProvider(props) {
 
   // get multiple restaurants
   async function getManyRestaurantDetails(restIds) {
+    console.log(
+      "🚀 ~ file: FirebaseProvider.jsx ~ line 114 ~ getManyRestaurantDetails ~ restIds",
+      restIds
+    );
     let restos = [];
     return new Promise((resolve, reject) => {
       fireDB
@@ -121,20 +125,21 @@ function FirebaseProvider(props) {
             if (!doc.exists) {
               console.error("doc doesn't exist!");
             }
-            const data = doc.data();
-            console.log(
-              "🚀 ~ file: FirebaseProvider.jsx ~ line 124 ~ docs.forEach ~ data",
-              data
-            );
-            restos = [...restos, data];
+
+            if (restIds.includes(doc.id)) {
+              const data = doc.data();
+              restos = [...restos, data];
+              console.log(
+                "🚀 ~ file: FirebaseProvider.jsx ~ line 127 ~ docs.forEach ~ restos",
+                restos
+              );
+            }
 
             const done = restos.length === restIds.length;
             if (done) {
               resolve(restos);
             }
           });
-
-          return restos;
         })
         .catch((err) => {
           console.error(err);
