@@ -6,7 +6,7 @@ import {
 import { useContext, useEffect } from "react";
 import "./Profile.scss";
 import ProfileNav from "../../components/ProfileNav/ProfileNav";
-import Nav from "../../components/Nav/Nav";
+import SearchField from "../../components/SearchField/SearchField";
 import { Link } from "react-router-dom";
 import {kebabCase} from "lodash"
 
@@ -66,6 +66,7 @@ function ProfileContent({ userInfo }) {
         </div>
       </div>
       <ProfileNav />
+      <SearchField/>
 
       {/* restaurant posts */}
       <div className="profile__post">
@@ -78,7 +79,7 @@ function ProfileContent({ userInfo }) {
             
               <Link className="profile__link"to={`/restaurants/${kebabCase(resto.restoName)}`} className="profile__resto-card">
                 <img className="profile__post-img" src={resto.restoImgs[0]} />
-                <p className="profile__post-name" key={resto.id}>
+                <p className="profile__post-name" >
                   {resto.restoName}
                 </p>
             </Link>

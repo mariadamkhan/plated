@@ -1,0 +1,42 @@
+@use '../../styles//partials/mixins' as *;
+@use '../../styles/partials/typography' as *;
+@use '../../styles/partials/variables' as *;
+
+.resto {
+//   background-color: #1d1d1d;
+  display: flex;
+  flex-direction: column;
+  color: #1d1d1d;
+  padding-bottom: 5rem;
+
+  &__wrap-img {
+    width: 100vw;
+    height: 30%;
+  }
+  &__img {
+    width: 100%;
+  }
+  &__name { 
+      margin: 1rem $mobile-spacing 0;
+      font-size: 3rem;
+      font-weight: 200;
+      letter-spacing: 0.2rem;
+  }
+  &__container-location {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      font-weight: 300;
+      margin: 1rem $mobile-spacing 0;
+      font-size: $td-labels;
+      color:  rgba(226, 226, 176, 0.692);
+      width: 55%;
+  }
+
+  &__container-about {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+  }
+  
+}

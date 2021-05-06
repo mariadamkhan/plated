@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import {useHistory, withRouter} from "react-router-dom";
 import { fireAuth, fireDB } from "../lib/firebase";
 import firebase from "firebase/app";
 
@@ -34,7 +35,8 @@ function FirebaseProvider(props) {
       }
     });
   }, []);
-
+  
+  const history = useHistory()
   //register user
   const registerUser = (event) => {
     event.preventDefault();
@@ -56,6 +58,7 @@ function FirebaseProvider(props) {
           following: [],
           accountCreated: firebase.firestore.Timestamp.now(),
         });
+        history.push('/profile')
       })
       .catch((err) => {
         console.error(
@@ -72,6 +75,7 @@ function FirebaseProvider(props) {
     fireAuth
       .signInWithEmailAndPassword(userEmail, userPass)
       .then((userCredential) => {
+        history.push('/profile')
         console.log("Successful sign in");
         console.log(userCredential);
       })
@@ -96,11 +100,11 @@ function FirebaseProvider(props) {
   // get one restaurant
   function getRestaurantDetails(restId) {
     fireDB
-      .collection("restaurants")
-      .doc(restId)
-      .get()
-      .then((doc) => {
-        doc.exists
+    .collection("restaurants")
+    .doc(restId)
+    .get()
+    .then((doc) => {
+      doc.exists
           ? setRestDetails({ loaded: true, restInfo: doc.data() })
           : console.error("Couldn't find restaurant details");
       })
@@ -125,7 +129,6 @@ function FirebaseProvider(props) {
             if (!doc.exists) {
               console.error("doc doesn't exist!");
             }
-
             if (restIds.includes(doc.id)) {
               const data = doc.data();
               restos = [...restos, data];
@@ -134,7 +137,6 @@ function FirebaseProvider(props) {
                 restos
               );
             }
-
             const done = restos.length === restIds.length;
             if (done) {
               resolve(restos);
@@ -166,4 +168,4 @@ function FirebaseProvider(props) {
   );
 }
 
-export default FirebaseProvider;
+export default withRouter(FirebaseProvider);
