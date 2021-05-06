@@ -7,6 +7,8 @@ import { useContext, useEffect } from "react";
 import "./Profile.scss";
 import ProfileNav from "../../components/ProfileNav/ProfileNav";
 import Nav from "../../components/Nav/Nav";
+import { Link } from "react-router-dom";
+import {kebabCase} from "lodash"
 
 const Profile = () => {
   const { userData, getRestaurantDetails, restDetails } = useContext(
@@ -46,6 +48,7 @@ function ProfileContent({ userInfo }) {
   console.log(restosList);
 
   return (
+    <>
     <section className="profile">
       {/* profile section, incl image + user data */}
       <div className="profile__user">
@@ -67,20 +70,22 @@ function ProfileContent({ userInfo }) {
       {/* restaurant posts */}
       <div className="profile__post">
         {restosList.map((resto) => {
-          console.log("🚀 ~ file: Profile.jsx ~ line 70 ~ {restosList.map ~ resto", resto)
+          console.log(
+            "🚀 ~ file: Profile.jsx ~ line 70 ~ {restosList.map ~ resto",
+            resto
+          );
           return (
-            <>
-              <div className="profile__resto-card">
+            
+              <Link className="profile__link"to={`/restaurants/${kebabCase(resto.restoName)}`} className="profile__resto-card">
                 <img className="profile__post-img" src={resto.restoImgs[0]} />
                 <p className="profile__post-name" key={resto.id}>
                   {resto.restoName}
                 </p>
-              </div>
-            </>
+            </Link>
           );
         })}
       </div>
-      <Nav />
     </section>
+    </>
   );
 }

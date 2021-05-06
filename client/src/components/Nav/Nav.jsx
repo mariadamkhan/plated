@@ -14,7 +14,7 @@ export default function Nav() {
                  <ul className="nav__list">
                      <li className="nav__item"><Link className="nav__link"><img className="nav__icon"src={Home}/></Link></li>
                      <li className="nav__item"><Link className="nav__link"><img className="nav__icon"src={Upload}/></Link></li>
-                     <li className="nav__item"><Link className="nav__link"><img className="nav__icon"src={User}/></Link></li>
+                     <li className="nav__item"><Link to={'/profile'}className="nav__link"><img className="nav__icon"src={User}/></Link></li>
                     
                  </ul>
              </div>

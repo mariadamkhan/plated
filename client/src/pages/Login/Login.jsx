@@ -3,7 +3,6 @@ import { Link, useHistory } from "react-router-dom"; //TODO: use history to be d
 import { useContext, useEffect } from "react";
 import logo from "../../assets/images/plated-logo.PNG";
 import "./Login.scss";
-import * as CONSTANTS from "../../constants/Constants";
 import { firebaseContext } from "../../provider/FirebaseProvider";
 
 function Login() {
@@ -38,7 +37,7 @@ function Login() {
       <div className="login__sign-up-container">
         <p className="login__sign-up">
           Don't have an account?{` `}
-          <Link className="login__link" to={CONSTANTS.SIGN_UP}>
+          <Link className="login__link" to={'/signup'}>
             Sign up
           </Link>
         </p>
