@@ -16,7 +16,7 @@ export default function Nav() {
             </Link>
           </li>
           <li className="nav__item">
-            <Link className="nav__link">
+            <Link to={'/upload'} className="nav__link">
               <img className="nav__icon" src={Upload} alt="Upload Logo"/>
             </Link>
           </li>

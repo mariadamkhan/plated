@@ -6,7 +6,7 @@ import { useFirebaseContext } from "../../provider/FirebaseProvider";
 import Phone from "../../assets/images/phone.PNG";
 import Location from "../../assets/images/location.PNG";
 import Web from "../../assets/images/web.PNG";
-import Quill from "../../assets/icons/quill.svg";
+import Pencil from "../../assets/icons/pencil2.svg";
 
 export default function RestoInfo() {
   const { restoNameKebab } = useParams();
@@ -32,7 +32,7 @@ export default function RestoInfo() {
       <div className="resto__wrap-details">
         <div className="resto__name-container">
           <h1 className="resto__name">{resto.restoName}</h1>
-          <img className="resto__edit" src={Quill} alt="Quill Icon" />
+          <img className="resto__edit" src={Pencil} alt="Quill Icon" />
         </div>
         <div className="resto__container-location">
           <p className="resto__city">{resto.restoCity}</p>

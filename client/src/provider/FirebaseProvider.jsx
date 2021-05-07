@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useHistory, withRouter } from "react-router-dom";
 import { fireAuth, fireDB } from "../lib/firebase";
 import firebase from "firebase/app";
-import { kebabCase } from "lodash";
+import { getOneRestoByNameFromFirebase } from "./getOneRestoByNameFromFirebase";
 
 export const firebaseContext = React.createContext();
 
@@ -26,7 +26,11 @@ function FirebaseProvider(props) {
           .get()
           .then((doc) => {
             doc.exists
-              ? setUserData({ loaded: true, userInfo: doc.data() })
+              ? setUserData({
+                  loaded: true,
+                  userInfo: doc.data(),
+                  userId: doc.id,
+                })
               : console.error("No such document");
           })
           .catch((err) => {
@@ -57,8 +61,10 @@ function FirebaseProvider(props) {
           userName: userName,
           followers: [],
           following: [],
+          restoList:[],
           accountCreated: firebase.firestore.Timestamp.now(),
         });
+        setUser(user)
         history.push("/profile");
       })
       .catch((err) => {
@@ -113,37 +119,10 @@ function FirebaseProvider(props) {
         console.error(err);
       });
   }
-  /**
-   * get one restaurant from the database, by matching against the resto name
-   * 
-   * @param {string} restoNameKebab kebab-case restaurant name, e.g. pulled from the url
-   */
+  
   async function getRestaurantByName(restoNameKebab) {
     return new Promise((resolve, reject) => {
-      fireDB
-        .collection("restaurants")
-        .get()
-        // looking at ALL restuarants...
-        .then((docs) => {
-          docs.forEach((doc) => {
-            if (!doc.exists) {
-              console.error("doc doesn't exist!");
-            }
-            const data = doc.data()
-            console.log("🚀 ~ file: FirebaseProvider.jsx ~ line 133 ~ docs.forEach ~ data", data)
-            // get me the one that...?
-            const isTheOneWeWant = kebabCase(data.restoName) === restoNameKebab
-            console.log("🚀🚀🚀🚀🚀🚀🚀 ~ file: FirebaseProvider.jsx ~ line 135 ~ docs.forEach ~ isTheOneWeWant", isTheOneWeWant)
-            // we found it!
-            if(isTheOneWeWant){
-              // give it back to the caller
-              resolve(data)
-            }
-          });
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      getOneRestoByNameFromFirebase(restoNameKebab, resolve);
     });
   }
 
@@ -162,7 +141,6 @@ function FirebaseProvider(props) {
             if (restIds.includes(doc.id)) {
               const data = doc.data();
               restos = [...restos, data];
-      
             }
             const done = restos.length === restIds.length;
             if (done) {
@@ -177,6 +155,59 @@ function FirebaseProvider(props) {
     });
   }
 
+  // Upload new restaurant
+  const uploadResto = (event) => {
+    event.preventDefault();
+    const restoName = event.target.name.value;
+    const restoCity = event.target.city.value;
+    const restoCuisine = event.target.cuisine.value;
+    const restoPhone = event.target.phone.value;
+    const restoAddress = event.target.address.value;
+    const restoHours = event.target.hours.value;
+    const restoUrl = event.target.url.value;
+    const restoNotes = event.target.note.value;
+    fireDB
+      .collection("restaurants")
+      .add({
+        restoName: restoName,
+        restoCity: restoCity,
+        restoCuisine: restoCuisine,
+        restoPhone: restoPhone,
+        restoAddress: restoAddress,
+        restoHours: restoHours,
+        restoUrl: restoUrl,
+        restoNotes: restoNotes,
+        uploadCreated: firebase.firestore.Timestamp.now(),
+      })
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+        console.log(
+          "🚀 ~ file: FirebaseProvider.jsx ~ line 213 ~ .then ~ userData",
+          userData
+        );
+        const userDoc = fireDB.collection("users").doc(userData.userId);
+       
+        userDoc
+          .update({
+            restoList: [...userData.userInfo.restoList, docRef.id],
+          })
+          .then(() => {
+            history.push("/profile");
+          });
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  };
+
+  // to create the feed list:
+  // 1. get all the restaurants? (then later, get the user that created it?)
+  // 2. or get users -> get their restaurants
+  // 3. sort by createdAt
+
+  // const restaurants = useAllRestaurants()
+  // [...restaurants].sort((a,b)=>new Date(a.createdAt).getTime()-b.createdAt).map(...)
+
   return (
     <firebaseContext.Provider
       value={{
@@ -189,6 +220,7 @@ function FirebaseProvider(props) {
         getRestaurantByName,
         getManyRestaurantDetails,
         restDetails,
+        uploadResto,
       }}
     >
       {props.children}
@@ -197,3 +229,4 @@ function FirebaseProvider(props) {
 }
 
 export default withRouter(FirebaseProvider);
+

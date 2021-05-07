@@ -25,6 +25,7 @@ export default Profile;
 
 function ProfileContent({ userInfo }) {
   const [restosList, setRestosList] = useState([]);
+  console.log("🚀 ~ file: Profile.jsx ~ line 28 ~ ProfileContent ~ restosList", restosList)
   const { userData, getRestaurantDetails, restDetails } = useContext(
     firebaseContext
   );
@@ -61,7 +62,7 @@ function ProfileContent({ userInfo }) {
             <p className="profile__name">{fullName}</p>
           </div>
           <div className="profile__metrics">
-            <p className="profile__posts">{restoIdsList.length} posts</p>
+            <p className="profile__posts">{(restoIdsList || []).length} posts</p>
             <p className="profile__posts">{followers.length} followers</p>
             <p className="profile__posts">{following.length} following</p>
           </div>
@@ -81,7 +82,7 @@ function ProfileContent({ userInfo }) {
                 to={`/restaurants/${kebabCase(resto.restoName)}`}
                 className="profile__resto-card"
               >
-                <img className="profile__post-img" src={resto.restoImgs[0]} alt="Restaurant"/>
+                <img className="profile__post-img" src={resto.restoImgs?.[0]} alt="Restaurant"/>
                 <p className="profile__post-name">{resto.restoName}</p>
               </Link>
             );
