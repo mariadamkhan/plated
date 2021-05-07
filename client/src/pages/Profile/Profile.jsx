@@ -25,7 +25,7 @@ export default Profile;
 
 function ProfileContent({ userInfo }) {
   const [restosList, setRestosList] = useState([]);
-  const { userData, getRestaurantDetails, restDetails, signOutUser, } = useContext(
+  const { userData, getRestaurantDetails, restDetails } = useContext(
     firebaseContext
   );
   const {
@@ -67,7 +67,6 @@ function ProfileContent({ userInfo }) {
           </div>
           <div className="profile__location">
             <p className="profile__city">{city}</p>
-            <button className="profile__logout" type="submit" onSubmit={signOutUser}>Logout</button>
           </div>
         </div>
         <ProfileNav />

@@ -46,11 +46,11 @@ export default function RestoInfo() {
           <div className="resto__contact">
             <div className="resto__contact-container">
               <img className="resto__icon" src={Phone} alt="Phone Icon" />
-              <p className="resto__contact-info">(514) 289-9996</p>
+              <p className="resto__contact-info">{resto.restoPhone}</p>
             </div>
             <div className="resto__contact-container">
               <img className="resto__icon" src={Web} alt="Web Icon" />
-              <p className="resto__contact-info">dandymtl.com</p>
+              <p className="resto__contact-info">{resto.restoUrl}</p>
             </div>
             <div className="resto__contact-container">
               <img className="resto__icon" src={Location} alt="Web Icon" />

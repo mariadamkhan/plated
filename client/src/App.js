@@ -4,6 +4,7 @@ import "./styles/global.scss";
 import Profile from "./pages/Profile/Profile";
 import RestoInfo from "./pages/RestoInfo/RestoInfo";
 import Nav from "./components/Nav/Nav";
+import Upload from "./pages/Upload/Upload";
 
 const Login = lazy(() => import("./pages/Login/Login"));
 const SignUp = lazy(() => import("./pages/SignUp/SignUp"));
@@ -20,10 +21,11 @@ function App() {
           <Switch>
             <Route path={"/profile"} exact component={Profile}></Route>
             <Route
-              path={"/restaurants/:restNameKebab"}
+              path={"/restaurants/:restoNameKebab"}
               exact
               component={RestoInfo}
             ></Route>
+            <Route path={'/upload'} component={Upload}></Route>
           </Switch>
         </>
         {/* <Route path={'/bucket-list'} component={BucketList}></Route>

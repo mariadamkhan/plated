@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"; //TODO: use history to be directed to the feed page
+import { Link } from "react-router-dom"; 
 import { useContext, useEffect } from "react";
 import logo from "../../assets/images/plated-logo.PNG";
 import "./Login.scss";
