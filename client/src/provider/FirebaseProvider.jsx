@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import {useHistory, withRouter} from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { fireAuth, fireDB } from "../lib/firebase";
 import firebase from "firebase/app";
+import { kebabCase } from "lodash";
 
 export const firebaseContext = React.createContext();
 
@@ -35,8 +36,8 @@ function FirebaseProvider(props) {
       }
     });
   }, []);
-  
-  const history = useHistory()
+
+  const history = useHistory();
   //register user
   const registerUser = (event) => {
     event.preventDefault();
@@ -58,7 +59,7 @@ function FirebaseProvider(props) {
           following: [],
           accountCreated: firebase.firestore.Timestamp.now(),
         });
-        history.push('/profile')
+        history.push("/profile");
       })
       .catch((err) => {
         console.error(
@@ -75,7 +76,7 @@ function FirebaseProvider(props) {
     fireAuth
       .signInWithEmailAndPassword(userEmail, userPass)
       .then((userCredential) => {
-        history.push('/profile')
+        history.push("/profile");
         console.log("Successful sign in");
         console.log(userCredential);
       })
@@ -100,11 +101,11 @@ function FirebaseProvider(props) {
   // get one restaurant
   function getRestaurantDetails(restId) {
     fireDB
-    .collection("restaurants")
-    .doc(restId)
-    .get()
-    .then((doc) => {
-      doc.exists
+      .collection("restaurants")
+      .doc(restId)
+      .get()
+      .then((doc) => {
+        doc.exists
           ? setRestDetails({ loaded: true, restInfo: doc.data() })
           : console.error("Couldn't find restaurant details");
       })
@@ -112,13 +113,42 @@ function FirebaseProvider(props) {
         console.error(err);
       });
   }
+  /**
+   * get one restaurant from the database, by matching against the resto name
+   * 
+   * @param {string} restoNameKebab kebab-case restaurant name, e.g. pulled from the url
+   */
+  async function getRestaurantByName(restoNameKebab) {
+    return new Promise((resolve, reject) => {
+      fireDB
+        .collection("restaurants")
+        .get()
+        // looking at ALL restuarants...
+        .then((docs) => {
+          docs.forEach((doc) => {
+            if (!doc.exists) {
+              console.error("doc doesn't exist!");
+            }
+            const data = doc.data()
+            console.log("🚀 ~ file: FirebaseProvider.jsx ~ line 133 ~ docs.forEach ~ data", data)
+            // get me the one that...?
+            const isTheOneWeWant = kebabCase(data.restoName) === restoNameKebab
+            console.log("🚀🚀🚀🚀🚀🚀🚀 ~ file: FirebaseProvider.jsx ~ line 135 ~ docs.forEach ~ isTheOneWeWant", isTheOneWeWant)
+            // we found it!
+            if(isTheOneWeWant){
+              // give it back to the caller
+              resolve(data)
+            }
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  }
 
   // get multiple restaurants
   async function getManyRestaurantDetails(restIds) {
-    console.log(
-      "🚀 ~ file: FirebaseProvider.jsx ~ line 114 ~ getManyRestaurantDetails ~ restIds",
-      restIds
-    );
     let restos = [];
     return new Promise((resolve, reject) => {
       fireDB
@@ -132,10 +162,7 @@ function FirebaseProvider(props) {
             if (restIds.includes(doc.id)) {
               const data = doc.data();
               restos = [...restos, data];
-              console.log(
-                "🚀 ~ file: FirebaseProvider.jsx ~ line 127 ~ docs.forEach ~ restos",
-                restos
-              );
+      
             }
             const done = restos.length === restIds.length;
             if (done) {
@@ -159,6 +186,7 @@ function FirebaseProvider(props) {
         signOutUser,
         userData,
         getRestaurantDetails,
+        getRestaurantByName,
         getManyRestaurantDetails,
         restDetails,
       }}

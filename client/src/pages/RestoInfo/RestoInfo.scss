@@ -3,11 +3,11 @@
 @use '../../styles/partials/variables' as *;
 
 .resto {
-//   background-color: #1d1d1d;
+  //   background-color: #1d1d1d;
   display: flex;
   flex-direction: column;
   color: #1d1d1d;
-  padding-bottom: 5rem;
+  padding-bottom: 6rem;
 
   &__wrap-img {
     width: 100vw;
@@ -16,27 +16,79 @@
   &__img {
     width: 100%;
   }
-  &__name { 
-      margin: 1rem $mobile-spacing 0;
-      font-size: 3rem;
-      font-weight: 200;
-      letter-spacing: 0.2rem;
+  &__name-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem $mobile-spacing 0;
+    color: rgb(231, 228, 228);
+    background-color: $error;
+  }
+  &__name {
+    font-size: 3rem;
+    font-weight: 200;
+    letter-spacing: 0.2rem;
+
+    padding-left: 1rem;
   }
   &__container-location {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      font-weight: 300;
-      margin: 1rem $mobile-spacing 0;
-      font-size: $td-labels;
-      color:  rgba(226, 226, 176, 0.692);
-      width: 55%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 400;
+    margin: 1rem $mobile-spacing 0;
+    font-size: $td-p-large;
+    color: $inter-color;
   }
 
   &__container-about {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 $mobile-spacing;
+    font-size: $td-labels;
+    font-weight: 300;
   }
-  
+  &__hours-container {
+    margin-top: 2rem;
+    width: 36vw;
+  }
+  &__heading-hours {
+    font-weight: 400;
+    color: $inter-color;
+    font-size: $td-labels;
+  }
+  &__contact {
+    margin: 2.7rem 0 0 2rem;
+    width: 40vw;
+    color: rgb(231, 228, 228);
+    background-color: $inter-color;
+    padding: 0.8rem 0 0.8rem 0.5rem;
+  }
+  &__hours {
+    line-height: 20px;
+    font-size: $m-labels;
+    padding-top: 0.5rem;
+  }
+  &__icon {
+    width: 2.4rem;
+  }
+  &__contact-container {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.5rem;
+  }
+  &__contact-info {
+    padding-left: 0.2rem;
+  }
+  &__notes-container {
+    margin-top: 2rem;
+  }
+  &__notes {
+    margin-top: 0.5em;
+  }
+  &__edit {
+    width: 2rem;
+    margin-right: 0.4rem;
+  }
 }

@@ -1,39 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "../../assets/images/dandy.jpeg";
 import { useParams } from "react-router-dom";
-import './RestoInfo.scss';
+import "./RestoInfo.scss";
+import { useFirebaseContext } from "../../provider/FirebaseProvider";
+import Phone from "../../assets/images/phone.PNG";
+import Location from "../../assets/images/location.PNG";
+import Web from "../../assets/images/web.PNG";
+import Quill from "../../assets/icons/quill.svg";
 
 export default function RestoInfo() {
-  const { restNameKebab } = useParams();
-  // TODO: const  {getRestByKebabName(restNameKebab)} = useFirebaseContext()
-  return (
-    <section class="resto">
+  const { restoNameKebab } = useParams();
+  const { getRestaurantByName } = useFirebaseContext();
+
+  const [resto, setResto] = useState(null);
+  console.log("🚀 ~ file: RestoInfo.jsx ~ line 11 ~ RestoInfo ~ resto", resto);
+
+  // on mount, fetch the restaurant from db and save it to state
+  useEffect(() => {
+    getRestaurantByName(restoNameKebab)
+      .then((r) => {
+        setResto(r);
+      })
+      .catch(console.log);
+  }, []);
+
+  return !resto ? null : (
+    <section className="resto">
       <div className="resto__wrap-img">
-        <img className="resto__img" src={Image} />
+        <img className="resto__img" src={resto.restoImgs[0]} />
       </div>
       <div className="resto__wrap-details">
-        <h1 className="resto__name">Dandy</h1>
+        <div className="resto__name-container">
+          <h1 className="resto__name">{resto.restoName}</h1>
+          <img className="resto__edit" src={Quill} alt="Quill Icon" />
+        </div>
         <div className="resto__container-location">
-          <p className="resto__city">Montreal</p>
-          <p className="resto__cuisine">Breakfas + Brunch</p>
+          <p className="resto__city">{resto.restoCity}</p>
+          <p className="resto__cuisine">{resto.restoCuisine}</p>
         </div>
         <div className="resto__container-about">
+          <div className="resto__hours-container">
             <p className="resto__heading-hours">Hours</p>
-          <p className="resto__hours"> 
-          Tuesday 4–9p.m. Wednesday 4–9p.m. Thursday 4–9p.m. Friday 4–9p.m.
-            Saturday 12–9p.m. Sunday 12–9p.m. Monday 4–9p.m.
-          </p>
-          <div className="resto__contact">
-            <p className="resto__phone">(514) 289-9996</p>
-            <p className="resto__email">dandymtl.com</p>
-            <p className="resto__address">
-              "244 Rue Saint-Jacques Montréal, QC H2Y 1L9"
-            </p>
+            <p className="resto__hours">{resto.restoHours}</p>
           </div>
-          <p className="resto__notes">
-            Had the chia bowl and the ricotta pancakes with brown butter maple
-            sauce and Meyer lemon cream, both of which were awesome.
-          </p>
+          <div className="resto__contact">
+            <div className="resto__contact-container">
+              <img className="resto__icon" src={Phone} alt="Phone Icon" />
+              <p className="resto__contact-info">(514) 289-9996</p>
+            </div>
+            <div className="resto__contact-container">
+              <img className="resto__icon" src={Web} alt="Web Icon" />
+              <p className="resto__contact-info">dandymtl.com</p>
+            </div>
+            <div className="resto__contact-container">
+              <img className="resto__icon" src={Location} alt="Web Icon" />
+              <p className="resto__contact-info">{resto.restoAddress}</p>
+            </div>
+          </div>
+          <div className="resto__notes-container">
+            <p className="resto__heading-hours">Notes</p>
+            <p className="resto__notes">{resto.restoNotes}</p>
+          </div>
         </div>
       </div>
     </section>

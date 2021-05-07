@@ -8,7 +8,7 @@ import "./Profile.scss";
 import ProfileNav from "../../components/ProfileNav/ProfileNav";
 import SearchField from "../../components/SearchField/SearchField";
 import { Link } from "react-router-dom";
-import {kebabCase} from "lodash"
+import { kebabCase } from "lodash";
 
 const Profile = () => {
   const { userData, getRestaurantDetails, restDetails } = useContext(
@@ -25,7 +25,7 @@ export default Profile;
 
 function ProfileContent({ userInfo }) {
   const [restosList, setRestosList] = useState([]);
-  const { userData, getRestaurantDetails, restDetails } = useContext(
+  const { userData, getRestaurantDetails, restDetails, signOutUser, } = useContext(
     firebaseContext
   );
   const {
@@ -49,44 +49,46 @@ function ProfileContent({ userInfo }) {
 
   return (
     <>
-    <section className="profile">
       {/* profile section, incl image + user data */}
-      <div className="profile__user">
-        <div className="profile__info">
-          <img className="profile__avatar" src={userAvatar} alt="User Avatar" />
-          <p className="profile__name">{fullName}</p>
+      <section className="profile">
+        <div className="profile__user">
+          <div className="profile__info">
+            <img
+              className="profile__avatar"
+              src={userAvatar}
+              alt="User Avatar"
+            />
+            <p className="profile__name">{fullName}</p>
+          </div>
+          <div className="profile__metrics">
+            <p className="profile__posts">{restoIdsList.length} posts</p>
+            <p className="profile__posts">{followers.length} followers</p>
+            <p className="profile__posts">{following.length} following</p>
+          </div>
+          <div className="profile__location">
+            <p className="profile__city">{city}</p>
+            <button className="profile__logout" type="submit" onSubmit={signOutUser}>Logout</button>
+          </div>
         </div>
-        <div className="profile__metrics">
-          <p className="profile__posts">{restoIdsList.length} posts</p>
-          <p className="profile__posts">{followers.length} followers</p>
-          <p className="profile__posts">{following.length} following</p>
-        </div>
-        <div className="profile__location">
-          <p className="profile__city">{city}</p>
-        </div>
-      </div>
-      <ProfileNav />
-      <SearchField/>
+        <ProfileNav />
+        <SearchField />
 
-      {/* restaurant posts */}
-      <div className="profile__post">
-        {restosList.map((resto) => {
-          console.log(
-            "🚀 ~ file: Profile.jsx ~ line 70 ~ {restosList.map ~ resto",
-            resto
-          );
-          return (
-            
-              <Link className="profile__link"to={`/restaurants/${kebabCase(resto.restoName)}`} className="profile__resto-card">
-                <img className="profile__post-img" src={resto.restoImgs[0]} />
-                <p className="profile__post-name" >
-                  {resto.restoName}
-                </p>
-            </Link>
-          );
-        })}
-      </div>
-    </section>
+        {/* restaurant posts */}
+        <div className="profile__post">
+          {restosList.map((resto) => {
+            return (
+              <Link
+                className="profile__link"
+                to={`/restaurants/${kebabCase(resto.restoName)}`}
+                className="profile__resto-card"
+              >
+                <img className="profile__post-img" src={resto.restoImgs[0]} alt="Restaurant"/>
+                <p className="profile__post-name">{resto.restoName}</p>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
     </>
   );
 }
