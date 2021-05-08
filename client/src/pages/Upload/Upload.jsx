@@ -95,12 +95,17 @@ export default function Upload() {
           <UserInput label="Hours" placeholder=" Hours..." name="hours" />
           <UserInput label="Url" placeholder=" Url..." name="url" />
         </div>
-        <textarea
-          type="text"
-          className="upload__notes"
-          name="note"
-          placeholder="Add a note..."
-        />
+        <div className="upload__notes-container">
+          <label htmlFor="uploadNote" className="upload__notes-label">
+            Add Note
+          </label>
+          <textarea
+            type="text"
+            className="upload__notes"
+            name="note"
+            placeholder="Add a note..."
+          />
+        </div>
         <div className="upload__button">
           <button className="upload__cta" type="submit">
             Add
