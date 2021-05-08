@@ -15,3 +15,4 @@ firebase.initializeApp(config);
 export const fireAuth = firebase.auth();
 export const fireDB = firebase.firestore();
 export const fireStorage = firebase.storage();
+export const restImagesRef = fireStorage.ref().child('restaurants').child('images')

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory, withRouter } from "react-router-dom";
-import { fireAuth, fireDB } from "../lib/firebase";
+import { fireAuth, fireDB, restImagesRef } from "../lib/firebase";
 import firebase from "firebase/app";
 import { getOneRestoByNameFromFirebase } from "./getOneRestoByNameFromFirebase";
 
@@ -61,10 +61,10 @@ function FirebaseProvider(props) {
           userName: userName,
           followers: [],
           following: [],
-          restoList:[],
+          restoList: [],
           accountCreated: firebase.firestore.Timestamp.now(),
         });
-        setUser(user)
+        setUser(user);
         history.push("/profile");
       })
       .catch((err) => {
@@ -119,7 +119,7 @@ function FirebaseProvider(props) {
         console.error(err);
       });
   }
-  
+
   async function getRestaurantByName(restoNameKebab) {
     return new Promise((resolve, reject) => {
       getOneRestoByNameFromFirebase(restoNameKebab, resolve);
@@ -156,50 +156,76 @@ function FirebaseProvider(props) {
   }
 
   // Upload new restaurant
-  const uploadResto = (event) => {
+  const uploadResto = (event, file) => {
     event.preventDefault();
-    const restoName = event.target.name.value;
-    const restoCity = event.target.city.value;
-    const restoCuisine = event.target.cuisine.value;
-    const restoPhone = event.target.phone.value;
-    const restoAddress = event.target.address.value;
-    const restoHours = event.target.hours.value;
-    const restoUrl = event.target.url.value;
-    const restoNotes = event.target.note.value;
-    fireDB
-      .collection("restaurants")
-      .add({
-        restoName: restoName,
-        restoCity: restoCity,
-        restoCuisine: restoCuisine,
-        restoPhone: restoPhone,
-        restoAddress: restoAddress,
-        restoHours: restoHours,
-        restoUrl: restoUrl,
-        restoNotes: restoNotes,
-        uploadCreated: firebase.firestore.Timestamp.now(),
-      })
-      .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
-        console.log(
-          "🚀 ~ file: FirebaseProvider.jsx ~ line 213 ~ .then ~ userData",
-          userData
-        );
-        const userDoc = fireDB.collection("users").doc(userData.userId);
-       
-        userDoc
-          .update({
-            restoList: [...userData.userInfo.restoList, docRef.id],
-          })
-          .then(() => {
-            history.push("/profile");
-          });
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
+    handleFireBaseUpload(file)
+    // .then((url) => {
+      // const restoImg = url;
+      const restoName = event.target.name.value;
+      const restoCity = event.target.city.value;
+      const restoCuisine = event.target.cuisine.value;
+      const restoPhone = event.target.phone.value;
+      const restoAddress = event.target.address.value;
+      const restoHours = event.target.hours.value;
+      const restoUrl = event.target.url.value;
+      const restoNotes = event.target.note.value;
+      // console.log(url)
+      // https://firebasestorage.googleapis.com/v0/b/plated-d6982.appspot.com/o/restaurants%2Fimages%2FprimaryImage.png
+      // https://firebasestorage.googleapis.com/v0/b/plated-d6982.appspot.com/o/restaurants%2Fimages%2FprimaryImage.png?alt=media&token=4447dd20-cceb-4cd0-a2a1-1cbbf5882c3f
+      // fireDB
+      //   .collection("restaurants")
+      //   .add({
+      //     // restoImgs: [restoImg],
+      //     restoName: restoName,
+      //     restoCity: restoCity,
+      //     restoCuisine: restoCuisine,
+      //     restoPhone: restoPhone,
+      //     restoAddress: restoAddress,
+      //     restoHours: restoHours,
+      //     restoUrl: restoUrl,
+      //     restoNotes: restoNotes,
+      //     uploadCreated: firebase.firestore.Timestamp.now(),
+      //   })
+      //   .then((docRef) => {
+      //     console.log("Document written with ID: ", docRef.id);
+      //     console.log(
+      //       "🚀 ~ file: FirebaseProvider.jsx ~ line 213 ~ .then ~ userData",
+      //       userData
+      //     );
+      //     const userDoc = fireDB.collection("users").doc(userData.userId);
+
+      //     userDoc
+      //       .update({
+      //         restoList: [...userData.userInfo.restoList, docRef.id],
+      //       })
+      //       .then(() => {
+      //         history.push("/profile");
+      //       });
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error adding document: ", error);
+      //   });
+    // });
   };
 
+  const handleFireBaseUpload = (file) => {
+    console.log(file);
+    // async magic goes here...
+    const metadata = {
+      contentType: file.type,
+    };
+    let fileType = file.type.split("/")[1];
+    const uploadTask = restImagesRef
+      .child(`primaryImage.${fileType}`)
+      .put(file, metadata);
+    uploadTask.then(snapshot => {
+      restImagesRef.getDownloadURL().then(downloadUrl => {
+        console.log(downloadUrl)
+      }) 
+    })
+  };
+
+  //TODO: FEED
   // to create the feed list:
   // 1. get all the restaurants? (then later, get the user that created it?)
   // 2. or get users -> get their restaurants
@@ -221,6 +247,7 @@ function FirebaseProvider(props) {
         getManyRestaurantDetails,
         restDetails,
         uploadResto,
+        handleFireBaseUpload,
       }}
     >
       {props.children}
@@ -229,4 +256,3 @@ function FirebaseProvider(props) {
 }
 
 export default withRouter(FirebaseProvider);
-

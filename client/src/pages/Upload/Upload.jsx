@@ -1,60 +1,24 @@
 import React, { useState } from "react";
 import { useContext, useEffect } from "react";
-import { fireStorage } from "../../lib/firebase";
+import { fireStorage, restImagesRef } from "../../lib/firebase";
 import { firebaseContext } from "../../provider/FirebaseProvider";
 import UserInput from "../../components/UserInput/UserInput";
 import Logo from "../../assets/images/plated-logo.PNG";
 import "./Upload.scss";
 
 export default function Upload() {
-  const { uploadResto } = useContext(firebaseContext);
+  const { uploadResto, handleFireBaseUpload} = useContext(firebaseContext);
+
   const allInputs = { imgUrl: "" };
   const [imageAsFile, setImageAsFile] = useState("");
-  const [imageAsUrl, setImageAsUrl] = useState(allInputs);
 
   console.log(imageAsFile);
   const handleImageAsFile = (e) => {
     const image = e.target.files[0];
-    setImageAsFile((imageFile) => image);
+    setImageAsFile(image);
   };
 
-  const handleFireBaseUpload = (e) => {
-    e.preventDefault();
-    console.log("start of upload");
-    // async magic goes here...
-    if (imageAsFile === "") {
-      console.error(`not an image, the image file is a ${typeof imageAsFile}`);
-    }
-    const uploadTask = fireStorage
-      .ref(`/restaurants/images/${imageAsFile.name}`)
-      .put(imageAsFile);
-    //initiates the firebase side uploading
-    uploadTask.on(
-      "state_changed",
-      (snapShot) => {
-        //takes a snap shot of the process as it is happening
-        console.log(snapShot);
-      },
-      (err) => {
-        //catches the errors
-        console.log(err);
-      },
-      () => {
-        // gets the functions from storage refences the image storage in firebase by the children
-        // gets the download url then sets the image from firebase as the value for the imgUrl key:
-        fireStorage
-          .ref("restaurants/images")
-          .child(imageAsFile.name)
-          .getDownloadURL()
-          .then((fireBaseUrl) => {
-            setImageAsUrl((prevObject) => ({
-              ...prevObject,
-              imgUrl: fireBaseUrl,
-            }));
-          });
-      }
-    );
-  };
+
 
   useEffect(() => {
     document.title = "Upload";
@@ -66,7 +30,7 @@ export default function Upload() {
         <img src={Logo} className="upload__logo" alt="Plated Logo" />
         <h1 className="upload__title"> Add New Pick</h1>
       </div>
-      <form className="upload__form" name="upload" onSubmit={uploadResto}>
+      <form className="upload__form" name="upload" onSubmit={(e)=> uploadResto(e, imageAsFile)}>
         <div className="upload__left-container">
           <UserInput label="Name" placeholder="Name..." name="name" />
           <UserInput placeholder=" City..." label="City" name="city" />
