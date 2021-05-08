@@ -3,32 +3,61 @@
 @use '../../styles/partials/variables' as *;
 
 .upload {
-    &__title-container {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-    }
-    &__logo {
-        width: 50px;
-    }
-    &__title {
-        font-family: "Krona";
-        font-size: 2rem;
-        font-weight: 300;
-        margin-left: 1rem;
-    }
-    &__form {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    &__left-container {
-        display: flex;
-        flex-direction: column;
-    }
-    &__right-container {
-       @extend .upload__left-container
-    }
-    &__notes {
-        width: 100%;
-    }
+  margin: 0 $mobile-spacing 8rem;
+  &__title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0 2rem;
+  }
+  &__logo {
+    width: 100px;
+    margin-left: 3rem;
+  }
+  &__title {
+    font-family: "Barlow";
+    font-size: 3rem;
+    font-weight: 200;
+    text-transform: uppercase;
+    margin-left: 1rem;
+    width: 100px;
+  }
+  &__form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  &__left-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: $inter-color;
+    border-radius: 0.2rem;
+    width: 28rem;
+  }
+  &__right-container {
+    @extend .upload__left-container;
+    margin-top: 2rem;
+    background-color: $error;
+  }
+  &__notes {
+    width: 80%;
+  }
+  &__cta {
+    width: 25rem;
+    height: 4rem;
+    line-height: 3rem;
+    padding: 0 2rem;
+    background: black;
+    font-family: "Krona";
+    font-size: $td-table-header;
+    color: white;
+    letter-spacing: 0.2rem;
+    transition: 0.2s all ease-in-out;
+    outline: none;
+    border: 0.1rem solid rgba(0, 0, 0, 1);
+    box-shadow: 3px 3px 1px #ffffff, 3px 3px 1px 1px rgba(0, 0, 0, 1);
+  }
 }
