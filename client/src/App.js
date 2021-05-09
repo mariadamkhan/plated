@@ -1,10 +1,11 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {  Route, Switch } from "react-router-dom";
 import "./styles/global.scss";
 import Profile from "./pages/Profile/Profile";
 import RestoInfo from "./pages/RestoInfo/RestoInfo";
 import Nav from "./components/Nav/Nav";
 import Upload from "./pages/Upload/Upload";
+import BucketList from "./pages/BucketList/BucketList";
 
 const Login = lazy(() => import("./pages/Login/Login"));
 const SignUp = lazy(() => import("./pages/SignUp/SignUp"));
@@ -25,7 +26,8 @@ function App() {
               exact
               component={RestoInfo}
             ></Route>
-            <Route path={'/upload'} component={Upload}></Route>
+            <Route path={"/upload"} exact component={Upload}></Route>
+            <Route path={"/bucket-list"} exact component={BucketList}></Route>
           </Switch>
         </>
         {/* <Route path={'/bucket-list'} component={BucketList}></Route>

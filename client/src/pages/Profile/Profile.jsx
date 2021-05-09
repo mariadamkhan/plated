@@ -9,6 +9,7 @@ import ProfileNav from "../../components/ProfileNav/ProfileNav";
 import SearchField from "../../components/SearchField/SearchField";
 import { Link } from "react-router-dom";
 import { kebabCase } from "lodash";
+import defaultAvatar from "../../assets/images/user.svg"
 
 const Profile = () => {
   const { userData, getRestaurantDetails, restDetails } = useContext(
@@ -45,7 +46,7 @@ function ProfileContent({ userInfo }) {
     getManyRestaurantDetails(userData.userInfo.restoList).then((resp) => {
       setRestosList(resp);
     });
-  }, [restoIdsList]);
+  }, []);
   console.log(restosList);
 
   return (
@@ -56,15 +57,15 @@ function ProfileContent({ userInfo }) {
           <div className="profile__info">
             <img
               className="profile__avatar"
-              src={userAvatar}
+              src={(userAvatar || defaultAvatar)}
               alt="User Avatar"
             />
             <p className="profile__name">{fullName}</p>
           </div>
           <div className="profile__metrics">
             <p className="profile__posts">{(restoIdsList || []).length} posts</p>
-            <p className="profile__posts">{followers.length} followers</p>
-            <p className="profile__posts">{following.length} following</p>
+            <p className="profile__posts">{(followers || []).length} followers</p>
+            <p className="profile__posts">{(following || []).length} following</p>
           </div>
           <div className="profile__location">
             <p className="profile__city">{city}</p>
@@ -92,3 +93,4 @@ function ProfileContent({ userInfo }) {
     </>
   );
 }
+

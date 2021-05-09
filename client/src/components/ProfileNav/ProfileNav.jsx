@@ -13,7 +13,7 @@ const ProfileNav = () => {
           </Link>
         </li>
         <li className="prof-nav__item-bucket">
-          <Link className="prof-nav__link">
+          <Link to={'/bucket-list'} className="prof-nav__link">
             <p className="prof-nav__text">Bucket List</p>
           </Link>
         </li>

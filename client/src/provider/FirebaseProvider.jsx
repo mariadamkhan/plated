@@ -3,6 +3,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import { fireAuth, fireDB, restImagesRef } from "../lib/firebase";
 import firebase from "firebase/app";
 import { getOneRestoByNameFromFirebase } from "./getOneRestoByNameFromFirebase";
+import {v4} from "uuid";
 
 export const firebaseContext = React.createContext();
 
@@ -213,7 +214,7 @@ function FirebaseProvider(props) {
     };
     let fileType = file.type.split("/")[1];
     const uploadTask = restImagesRef
-      .child(`primaryImage.${fileType}`)
+      .child(`${v4()}.${fileType}`)
       .put(file, metadata);
     return uploadTask.then(snapshot => {
       return snapshot.ref.getDownloadURL()

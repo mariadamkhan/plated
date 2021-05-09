@@ -3,6 +3,7 @@
 @use '../../styles/partials/variables' as *;
 
 .resto {
+  box-sizing: border-box;
   //   background-color: #1d1d1d;
   display: flex;
   flex-direction: column;
@@ -51,7 +52,7 @@
   }
   &__hours-container {
     margin-top: 2rem;
-    width: 33vw;
+    width: 38vw;
   }
   &__heading-hours {
     font-weight: 400;
@@ -60,10 +61,10 @@
   }
   &__contact {
     margin-top: 2.7rem;
-    width: 42vw;
+    width: 45vw;
     color: rgb(231, 228, 228);
     background-color: $inter-color;
-    padding: 0.8rem 0 0.8rem 0.5rem;
+    padding: 0.8rem 0.8rem 0.5rem;
   }
   &__hours {
     line-height: 20px;
