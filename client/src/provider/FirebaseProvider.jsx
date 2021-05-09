@@ -12,6 +12,7 @@ function FirebaseProvider(props) {
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const [restDetails, setRestDetails] = useState(null);
+  const [imageUrl, setImageUrl]= useState('');
 
   useEffect(() => {
     fireAuth.onAuthStateChanged((userAuth) => {
@@ -158,9 +159,9 @@ function FirebaseProvider(props) {
   // Upload new restaurant
   const uploadResto = (event, file) => {
     event.preventDefault();
-    handleFireBaseUpload(file)
-    // .then((url) => {
-      // const restoImg = url;
+    handleFireBaseUpload(file).then(url => {
+      console.log(url);
+      const restoImg = url;
       const restoName = event.target.name.value;
       const restoCity = event.target.city.value;
       const restoCuisine = event.target.cuisine.value;
@@ -169,45 +170,41 @@ function FirebaseProvider(props) {
       const restoHours = event.target.hours.value;
       const restoUrl = event.target.url.value;
       const restoNotes = event.target.note.value;
-      // console.log(url)
-      // https://firebasestorage.googleapis.com/v0/b/plated-d6982.appspot.com/o/restaurants%2Fimages%2FprimaryImage.png
-      // https://firebasestorage.googleapis.com/v0/b/plated-d6982.appspot.com/o/restaurants%2Fimages%2FprimaryImage.png?alt=media&token=4447dd20-cceb-4cd0-a2a1-1cbbf5882c3f
-      // fireDB
-      //   .collection("restaurants")
-      //   .add({
-      //     // restoImgs: [restoImg],
-      //     restoName: restoName,
-      //     restoCity: restoCity,
-      //     restoCuisine: restoCuisine,
-      //     restoPhone: restoPhone,
-      //     restoAddress: restoAddress,
-      //     restoHours: restoHours,
-      //     restoUrl: restoUrl,
-      //     restoNotes: restoNotes,
-      //     uploadCreated: firebase.firestore.Timestamp.now(),
-      //   })
-      //   .then((docRef) => {
-      //     console.log("Document written with ID: ", docRef.id);
-      //     console.log(
-      //       "🚀 ~ file: FirebaseProvider.jsx ~ line 213 ~ .then ~ userData",
-      //       userData
-      //     );
-      //     const userDoc = fireDB.collection("users").doc(userData.userId);
-
-      //     userDoc
-      //       .update({
-      //         restoList: [...userData.userInfo.restoList, docRef.id],
-      //       })
-      //       .then(() => {
-      //         history.push("/profile");
-      //       });
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error adding document: ", error);
-      //   });
-    // });
+      console.log(url)
+      fireDB
+        .collection("restaurants")
+        .add({
+          restoImgs: [restoImg],
+          restoName: restoName,
+          restoCity: restoCity,
+          restoCuisine: restoCuisine,
+          restoPhone: restoPhone,
+          restoAddress: restoAddress,
+          restoHours: restoHours,
+          restoUrl: restoUrl,
+          restoNotes: restoNotes,
+          uploadCreated: firebase.firestore.Timestamp.now(),
+        })
+        .then((docRef) => {
+          console.log("Document written with ID: ", docRef.id);
+          console.log(
+            "🚀 ~ file: FirebaseProvider.jsx ~ line 213 ~ .then ~ userData",
+            userData
+          );
+          const userDoc = fireDB.collection("users").doc(userData.userId);
+          userDoc
+            .update({
+              restoList: [...userData.userInfo.restoList, docRef.id],
+            })
+            .then(() => {
+              history.push("/profile");
+            });
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+        });
+    })
   };
-
   const handleFireBaseUpload = (file) => {
     console.log(file);
     // async magic goes here...
@@ -218,10 +215,8 @@ function FirebaseProvider(props) {
     const uploadTask = restImagesRef
       .child(`primaryImage.${fileType}`)
       .put(file, metadata);
-    uploadTask.then(snapshot => {
-      restImagesRef.getDownloadURL().then(downloadUrl => {
-        console.log(downloadUrl)
-      }) 
+    return uploadTask.then(snapshot => {
+      return snapshot.ref.getDownloadURL()
     })
   };
 

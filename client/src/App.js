@@ -14,7 +14,7 @@ function App() {
     <Suspense fallback={<p>Loading...</p>}>
       <Switch>
         {/* <Route path={'/'} component={Feed}></Route> */}
-        <Route path={"/login"} exact component={Login}></Route>
+        <Route path={"/"} exact component={Login}></Route>
         <Route path={"/signup"} exact component={SignUp}></Route>
         <>
           <Nav />

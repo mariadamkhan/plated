@@ -55,7 +55,7 @@ function SignUp() {
       <div className="sign-up__sign-up-container">
         <p className="sign-up__sign-up">
           Have an account?{` `}
-          <Link className="sign-up__link" to={'/login'}>
+          <Link className="sign-up__link" to={'/'}>
             Login
           </Link>
         </p>

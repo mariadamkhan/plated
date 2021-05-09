@@ -51,7 +51,7 @@
   }
   &__hours-container {
     margin-top: 2rem;
-    width: 36vw;
+    width: 33vw;
   }
   &__heading-hours {
     font-weight: 400;
@@ -59,8 +59,8 @@
     font-size: $td-labels;
   }
   &__contact {
-    margin: 2.7rem 0 0 2rem;
-    width: 40vw;
+    margin-top: 2.7rem;
+    width: 42vw;
     color: rgb(231, 228, 228);
     background-color: $inter-color;
     padding: 0.8rem 0 0.8rem 0.5rem;
@@ -69,6 +69,7 @@
     line-height: 20px;
     font-size: $m-labels;
     padding-top: 0.5rem;
+    margin-right: 2rem;
   }
   &__icon {
     width: 2.4rem;
@@ -83,6 +84,7 @@
   }
   &__notes-container {
     margin-top: 2rem;
+    width: 100%;
   }
   &__notes {
     margin-top: 0.5em;

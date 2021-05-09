@@ -39,10 +39,6 @@ export default function RestoInfo() {
           <p className="resto__cuisine">{resto.restoCuisine}</p>
         </div>
         <div className="resto__container-about">
-          <div className="resto__hours-container">
-            <p className="resto__heading-hours">Hours</p>
-            <p className="resto__hours">{resto.restoHours}</p>
-          </div>
           <div className="resto__contact">
             <div className="resto__contact-container">
               <img className="resto__icon" src={Phone} alt="Phone Icon" />
@@ -56,6 +52,10 @@ export default function RestoInfo() {
               <img className="resto__icon" src={Location} alt="Web Icon" />
               <p className="resto__contact-info">{resto.restoAddress}</p>
             </div>
+          </div>
+          <div className="resto__hours-container">
+            <p className="resto__heading-hours">Hours</p>
+            <p className="resto__hours">{resto.restoHours}</p>
           </div>
           <div className="resto__notes-container">
             <p className="resto__heading-hours">Notes</p>
