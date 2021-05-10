@@ -52,7 +52,7 @@ function ProfileContent({ userInfo }) {
   return (
     <>
       {/* profile section, incl image + user data */}
-      <section className="profile">
+      <section className="profile" key={userInfo.id} >
         <div className="profile__user">
           <div className="profile__info">
             <img
@@ -62,7 +62,7 @@ function ProfileContent({ userInfo }) {
             />
             <p className="profile__name">{fullName}</p>
           </div>
-          <div className="profile__metrics">
+          <div className="profile__metrics" >
             <p className="profile__posts">{(restoIdsList || []).length} posts</p>
             <p className="profile__posts">{(followers || []).length} followers</p>
             <p className="profile__posts">{(following || []).length} following</p>
