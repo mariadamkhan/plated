@@ -95,9 +95,9 @@ function FirebaseProvider(props) {
       });
   };
 
-  //Sign Out
-  const signOutUser = (event) => {
-    event.preventDefault();
+  //Log Out
+  const signOutUser = () => {
+    // event.preventDefault();
     fireAuth.signOut().then(() => {
       console.log("User signed out");
       setUser(null);

@@ -8,6 +8,10 @@
   margin: 1rem 0 4rem;
   font-family: "Barlow";
 
+  &__user {
+    margin: 0 $mobile-spacing;
+  }
+
   &__avatar {
     display: flex;
     margin: 0 auto;
@@ -58,7 +62,7 @@
     text-decoration: none;
     color: #1d1d1d;
   }
-  
+
   &__post-img {
     border-radius: 0.4rem;
     box-shadow: $box-shadow-page;
@@ -70,5 +74,16 @@
     font-size: 1.4rem;
     font-weight: 300;
     border-bottom: 1px solid rgba(0, 0, 0, 0.37);
+  }
+  &__location {
+    display: flex;
+    flex-direction: column;
+  }
+  &__signout {
+    width: 2rem;
+  }
+  &__signout-container {
+    display: flex;
+    justify-content: flex-end;
   }
 }
