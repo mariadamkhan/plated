@@ -7,18 +7,14 @@ import Logo from "../../assets/images/plated-logo.PNG";
 import "./Upload.scss";
 
 export default function Upload() {
-  const { uploadResto, handleFireBaseUpload} = useContext(firebaseContext);
-
+  const { uploadResto, handleFireBaseUpload } = useContext(firebaseContext);
   const allInputs = { imgUrl: "" };
   const [imageAsFile, setImageAsFile] = useState("");
 
-  console.log(imageAsFile);
   const handleImageAsFile = (e) => {
     const image = e.target.files[0];
     setImageAsFile(image);
   };
-
-
 
   useEffect(() => {
     document.title = "Upload";
@@ -30,7 +26,12 @@ export default function Upload() {
         <img src={Logo} className="upload__logo" alt="Plated Logo" />
         <h1 className="upload__title"> Add New Pick</h1>
       </div>
-      <form className="upload__form" name="upload" onSubmit={(e)=> uploadResto(e, imageAsFile)}>
+      <form
+        className="upload__form"
+        name="upload"
+        onSubmit={(e) => {uploadResto(e, imageAsFile)
+        }}
+      >
         <div className="upload__left-container">
           <UserInput label="Name" placeholder="Name..." name="name" />
           <UserInput placeholder=" City..." label="City" name="city" />

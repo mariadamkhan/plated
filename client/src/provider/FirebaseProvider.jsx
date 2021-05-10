@@ -3,17 +3,24 @@ import { useHistory, withRouter } from "react-router-dom";
 import { fireAuth, fireDB, restImagesRef } from "../lib/firebase";
 import firebase from "firebase/app";
 import { getOneRestoByNameFromFirebase } from "./getOneRestoByNameFromFirebase";
-import {v4} from "uuid";
+import { v4 } from "uuid";
 
 export const firebaseContext = React.createContext();
 
 export const useFirebaseContext = () => useContext(firebaseContext);
 
 function FirebaseProvider(props) {
+  // TODO: deduplicate these?
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
+
+
+  /** appears on Profile page */
+  const [profileRestosList, setProfileRestosList] = useState([]);
+
+  /** appears on Restaurant page */
   const [restDetails, setRestDetails] = useState(null);
-  const [imageUrl, setImageUrl]= useState('');
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     fireAuth.onAuthStateChanged((userAuth) => {
@@ -38,7 +45,6 @@ function FirebaseProvider(props) {
           .catch((err) => {
             console.error("Error getting document:", err);
           });
-        console.log(userData);
       }
     });
   }, []);
@@ -78,12 +84,14 @@ function FirebaseProvider(props) {
 
   //Login User
   const signInUser = (event) => {
-    event.preventDefault();
-    const userEmail = event.target.emailEntry.value;
-    const userPass = event.target.passwordEntry.value;
-    fireAuth
-      .signInWithEmailAndPassword(userEmail, userPass)
+return new Promise((resolve,reject)=>{
+
+  const userEmail = event.target.emailEntry.value;
+  const userPass = event.target.passwordEntry.value;
+  fireAuth
+  .signInWithEmailAndPassword(userEmail, userPass)
       .then((userCredential) => {
+        resolve(true) // success
         history.push("/profile");
         console.log("Successful sign in");
         console.log(userCredential);
@@ -92,36 +100,42 @@ function FirebaseProvider(props) {
         const errorCode = err.code;
         const errorMsg = err.message;
         console.error(errorCode, errorMsg);
+        reject(err)
       });
-  };
+    })
+    };
 
   //Log Out
   const signOutUser = () => {
     // event.preventDefault();
+
+    // log out from auth
     fireAuth.signOut().then(() => {
       console.log("User signed out");
       setUser(null);
+      setUserData(null);
     });
   };
 
   //Restaurants
 
   // get one restaurant
-  function getRestaurantDetails(restId) {
-    fireDB
-      .collection("restaurants")
-      .doc(restId)
-      .get()
-      .then((doc) => {
-        doc.exists
-          ? setRestDetails({ loaded: true, restInfo: doc.data() })
-          : console.error("Couldn't find restaurant details");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+  // function getRestaurantDetails(restId) {
+  //   fireDB
+  //     .collection("restaurants")
+  //     .doc(restId)
+  //     .get()
+  //     .then((doc) => {
+  //       doc.exists
+  //         ? setRestDetails({ loaded: true, restInfo: doc.data() })
+  //         : console.error("Couldn't find restaurant details");
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }
 
+  //get restaurant by name (clicking on the picture of the restaurant )
   async function getRestaurantByName(restoNameKebab) {
     return new Promise((resolve, reject) => {
       getOneRestoByNameFromFirebase(restoNameKebab, resolve);
@@ -160,8 +174,7 @@ function FirebaseProvider(props) {
   // Upload new restaurant
   const uploadResto = (event, file) => {
     event.preventDefault();
-    handleFireBaseUpload(file).then(url => {
-      console.log(url);
+    handleFireBaseUpload(file).then((url) => {
       const restoImg = url;
       const restoName = event.target.name.value;
       const restoCity = event.target.city.value;
@@ -171,7 +184,6 @@ function FirebaseProvider(props) {
       const restoHours = event.target.hours.value;
       const restoUrl = event.target.url.value;
       const restoNotes = event.target.note.value;
-      console.log(url)
       fireDB
         .collection("restaurants")
         .add({
@@ -188,10 +200,6 @@ function FirebaseProvider(props) {
         })
         .then((docRef) => {
           console.log("Document written with ID: ", docRef.id);
-          console.log(
-            "🚀 ~ file: FirebaseProvider.jsx ~ line 213 ~ .then ~ userData",
-            userData
-          );
           const userDoc = fireDB.collection("users").doc(userData.userId);
           userDoc
             .update({
@@ -199,12 +207,13 @@ function FirebaseProvider(props) {
             })
             .then(() => {
               history.push("/profile");
+
             });
         })
         .catch((error) => {
           console.error("Error adding document: ", error);
         });
-    })
+    });
   };
   const handleFireBaseUpload = (file) => {
     console.log(file);
@@ -216,9 +225,9 @@ function FirebaseProvider(props) {
     const uploadTask = restImagesRef
       .child(`${v4()}.${fileType}`)
       .put(file, metadata);
-    return uploadTask.then(snapshot => {
-      return snapshot.ref.getDownloadURL()
-    })
+    return uploadTask.then((snapshot) => {
+      return snapshot.ref.getDownloadURL();
+    });
   };
 
   //TODO: FEED
@@ -230,6 +239,10 @@ function FirebaseProvider(props) {
   // const restaurants = useAllRestaurants()
   // [...restaurants].sort((a,b)=>new Date(a.createdAt).getTime()-b.createdAt).map(...)
 
+  async function getAllRestaurants() {
+    const snapshot = await firebase.firestore().collection("restaurants").get();
+    return snapshot.docs.map((doc) => doc.data());
+  }
   return (
     <firebaseContext.Provider
       value={{
@@ -238,12 +251,16 @@ function FirebaseProvider(props) {
         signInUser,
         signOutUser,
         userData,
-        getRestaurantDetails,
+        // getRestaurantDetails,
         getRestaurantByName,
         getManyRestaurantDetails,
         restDetails,
         uploadResto,
         handleFireBaseUpload,
+        getAllRestaurants,
+       
+        profileRestosList,
+        setProfileRestosList,
       }}
     >
       {props.children}

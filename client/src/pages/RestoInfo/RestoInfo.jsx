@@ -11,9 +11,7 @@ import Pencil from "../../assets/icons/pencil2.svg";
 export default function RestoInfo() {
   const { restoNameKebab } = useParams();
   const { getRestaurantByName } = useFirebaseContext();
-
   const [resto, setResto] = useState(null);
-  console.log("🚀 ~ file: RestoInfo.jsx ~ line 11 ~ RestoInfo ~ resto", resto);
 
   // on mount, fetch the restaurant from db and save it to state
   useEffect(() => {

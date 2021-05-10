@@ -26,17 +26,17 @@ const Profile = () => {
 export default Profile;
 
 function ProfileContent({ userInfo }) {
-  const [restosList, setRestosList] = useState([]);
   const history = useHistory();
-  console.log(
-    "🚀 ~ file: Profile.jsx ~ line 28 ~ ProfileContent ~ restosList",
-    restosList
-  );
+const [searchString, setSearchString] = useState("")
+
   const {
     userData,
     getRestaurantDetails,
     restDetails,
     signOutUser,
+  
+    profileRestosList,
+    setProfileRestosList,
   } = useContext(firebaseContext);
   const {
     fullName,
@@ -49,22 +49,29 @@ function ProfileContent({ userInfo }) {
 
   const { getManyRestaurantDetails } = useFirebaseContext();
 
+  // fetch many restaurants on mount (if it's stale data)
+  useEffect(() => {
+    if (userData) {
+      getManyRestaurantDetails(userData.userInfo.restoList).then((resp) => {
+        console.log(resp);
+        setProfileRestosList(resp);
+      
+      });
+    }
+  }, [userData]);
+  console.log(profileRestosList);
+
+
+  //logout handle
   async function handleLogOut() {
     try {
       await signOutUser();
+      setProfileRestosList([]);
       history.push("/");
     } catch {
-      console.log("Didn't work");
+      console.log("Sign Out Unsuccesful");
     }
   }
-
-  // fetch many restaurants on mount
-  useEffect(() => {
-    getManyRestaurantDetails(userData.userInfo.restoList).then((resp) => {
-      setRestosList(resp);
-    });
-  }, []);
-  console.log(restosList);
 
   return (
     <>
@@ -103,27 +110,30 @@ function ProfileContent({ userInfo }) {
           </div>
         </div>
         <ProfileNav />
-        <SearchField />
+        <SearchField {...{searchString,setSearchString}}/>
 
         {/* restaurant posts */}
         <div className="profile__post">
-          {restosList.map((resto) => {
-            return (
-              <Link
-                className="profile__link"
-                to={`/restaurants/${kebabCase(resto.restoName)}`}
-                className="profile__resto-card"
-                key={resto.restoName}
-              >
-                <img
-                  className="profile__post-img"
-                  src={resto.restoImgs?.[0]}
-                  alt="Restaurant"
-                />
-                <p className="profile__post-name">{resto.restoName}</p>
-              </Link>
-            );
-          })}
+          {[...profileRestosList]
+            .sort((a, b) => b.uploadCreated.seconds - a.uploadCreated.seconds)
+            .filter(resto=>!searchString || JSON.stringify(resto)?.toLowerCase().includes(searchString.toLowerCase()))
+            .map((resto) => {
+              return (
+                <Link
+                  className="profile__link"
+                  to={`/restaurants/${kebabCase(resto.restoName)}`}
+                  className="profile__resto-card"
+                  key={resto.restoName}
+                >
+                  <img
+                    className="profile__post-img"
+                    src={resto.restoImgs?.[0]}
+                    alt="Restaurant"
+                  />
+                  <p className="profile__post-name">{resto.restoName}</p>
+                </Link>
+              );
+            })}
         </div>
       </section>
     </>

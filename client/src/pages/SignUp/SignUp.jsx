@@ -7,7 +7,6 @@ import { firebaseContext } from "../../provider/FirebaseProvider";
 
 function SignUp() {
   const { user, registerUser, userData, signOutUser } = useContext(firebaseContext);
-  console.log(userData);
 
   useEffect(() => {
     document.title = "Plated Sign Up";

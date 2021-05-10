@@ -12,16 +12,9 @@ export function getOneRestoByNameFromFirebase(restoNameKebab, resolve) {
           console.error("doc doesn't exist!");
         }
         const data = doc.data();
-        console.log(
-          "🚀 ~ file: FirebaseProvider.jsx ~ line 133 ~ docs.forEach ~ data",
-          data
-        );
+
         // get me the one that...?
         const isTheOneWeWant = kebabCase(data.restoName) === restoNameKebab;
-        console.log(
-          "🚀🚀🚀🚀🚀🚀🚀 ~ file: FirebaseProvider.jsx ~ line 135 ~ docs.forEach ~ isTheOneWeWant",
-          isTheOneWeWant
-        );
         // we found it!
         if (isTheOneWeWant) {
           // give it back to the caller
