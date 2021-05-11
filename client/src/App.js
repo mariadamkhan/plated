@@ -15,7 +15,6 @@ function App() {
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <Switch>
-        {/* <Route path={'/'} component={Feed}></Route> */}
         <Route path={"/"} exact component={Login}></Route>
         <Route path={"/signup"} exact component={SignUp}></Route>
         <>
@@ -32,9 +31,6 @@ function App() {
             <Route path={"/bucket-list"} exact component={BucketList}></Route>
           </Switch>
         </>
-        {/* 
-        <Route path={'/not-found'} component={NotFound404}></Route>
-        <Route path={'*'}><Redirect to="not-found"/></Route> */}
       </Switch>
     </Suspense>
   );

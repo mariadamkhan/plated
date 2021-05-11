@@ -1,0 +1,21 @@
+@use '../../styles/partials/mixins' as *;
+@use '../../styles/partials/typography' as *;
+@use '../../styles/partials/variables' as *;
+
+.header {
+  box-sizing: border-box;
+  position: fixed;
+  background-color: $page-color;
+  padding-bottom: 0.5rem;
+  top: 0;
+  width: 100%;
+  border-bottom: 0.01rem solid rgba(102, 102, 102, 0.13);
+  &__container {
+    height: 4rem;
+  }
+  &__logo {
+    width: 3.5rem;
+    height: 4rem;
+    margin-left: 1rem;
+  }
+}

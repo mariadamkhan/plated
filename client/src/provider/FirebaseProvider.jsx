@@ -14,7 +14,6 @@ function FirebaseProvider(props) {
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
 
-
   /** appears on Profile page */
   const [profileRestosList, setProfileRestosList] = useState([]);
 
@@ -84,31 +83,28 @@ function FirebaseProvider(props) {
 
   //Login User
   const signInUser = (event) => {
-return new Promise((resolve,reject)=>{
-
-  const userEmail = event.target.emailEntry.value;
-  const userPass = event.target.passwordEntry.value;
-  fireAuth
-  .signInWithEmailAndPassword(userEmail, userPass)
-      .then((userCredential) => {
-        resolve(true) // success
-        history.push("/profile");
-        console.log("Successful sign in");
-        console.log(userCredential);
-      })
-      .catch((err) => {
-        const errorCode = err.code;
-        const errorMsg = err.message;
-        console.error(errorCode, errorMsg);
-        reject(err)
-      });
-    })
-    };
+    return new Promise((resolve, reject) => {
+      const userEmail = event.target.emailEntry.value;
+      const userPass = event.target.passwordEntry.value;
+      fireAuth
+        .signInWithEmailAndPassword(userEmail, userPass)
+        .then((userCredential) => {
+          resolve(true); // success
+          history.push("/profile");
+          console.log("Successful sign in");
+          console.log(userCredential);
+        })
+        .catch((err) => {
+          const errorCode = err.code;
+          const errorMsg = err.message;
+          console.error(errorCode, errorMsg);
+          reject(err);
+        });
+    });
+  };
 
   //Log Out
   const signOutUser = () => {
-    // event.preventDefault();
-
     // log out from auth
     fireAuth.signOut().then(() => {
       console.log("User signed out");
@@ -117,31 +113,12 @@ return new Promise((resolve,reject)=>{
     });
   };
 
-  //Restaurants
-
-  // get one restaurant
-  // function getRestaurantDetails(restId) {
-  //   fireDB
-  //     .collection("restaurants")
-  //     .doc(restId)
-  //     .get()
-  //     .then((doc) => {
-  //       doc.exists
-  //         ? setRestDetails({ loaded: true, restInfo: doc.data() })
-  //         : console.error("Couldn't find restaurant details");
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
-
   //get restaurant by name (clicking on the picture of the restaurant )
   async function getRestaurantByName(restoNameKebab) {
     return new Promise((resolve, reject) => {
       getOneRestoByNameFromFirebase(restoNameKebab, resolve);
     });
   }
-
   // get multiple restaurants
   async function getManyRestaurantDetails(restIds) {
     let restos = [];
@@ -207,7 +184,6 @@ return new Promise((resolve,reject)=>{
             })
             .then(() => {
               history.push("/profile");
-
             });
         })
         .catch((error) => {
@@ -230,15 +206,6 @@ return new Promise((resolve,reject)=>{
     });
   };
 
-  //TODO: FEED
-  // to create the feed list:
-  // 1. get all the restaurants? (then later, get the user that created it?)
-  // 2. or get users -> get their restaurants
-  // 3. sort by createdAt
-
-  // const restaurants = useAllRestaurants()
-  // [...restaurants].sort((a,b)=>new Date(a.createdAt).getTime()-b.createdAt).map(...)
-
   async function getAllRestaurants() {
     const snapshot = await firebase.firestore().collection("restaurants").get();
     return snapshot.docs.map((doc) => doc.data());
@@ -251,14 +218,13 @@ return new Promise((resolve,reject)=>{
         signInUser,
         signOutUser,
         userData,
-        // getRestaurantDetails,
         getRestaurantByName,
         getManyRestaurantDetails,
         restDetails,
         uploadResto,
         handleFireBaseUpload,
         getAllRestaurants,
-       
+
         profileRestosList,
         setProfileRestosList,
       }}

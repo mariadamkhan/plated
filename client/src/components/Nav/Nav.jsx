@@ -11,18 +11,18 @@ export default function Nav() {
       <div className="nav__container">
         <ul className="nav__list">
           <li className="nav__item">
-            <Link className="nav__link">
-              <img className="nav__icon" src={Home} alt="Home Logo"/>
+            <Link to={"/feed"} className="nav__link">
+              <img className="nav__icon" src={Home} alt="Home Logo" />
             </Link>
           </li>
           <li className="nav__item">
-            <Link to={'/upload'} className="nav__link">
-              <img className="nav__icon" src={Upload} alt="Upload Logo"/>
+            <Link to={"/upload"} className="nav__link">
+              <img className="nav__icon" src={Upload} alt="Upload Logo" />
             </Link>
           </li>
           <li className="nav__item">
-            <Link to={'/profile'} className="nav__link">
-              <img className="nav__icon" src={User} alt="Home Logo"/>
+            <Link to={"/profile"} className="nav__link">
+              <img className="nav__icon" src={User} alt="Home Logo" />
             </Link>
           </li>
         </ul>

@@ -9,6 +9,7 @@
   background-color: $page-color;
   bottom: 0;
   width: 100%;
+  border-top: 0.01rem solid rgba(102, 102, 102, 0.13);
 
   &__container {
     height: 3rem;
@@ -30,7 +31,7 @@
   }
 
   &__icon {
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
   }
 }

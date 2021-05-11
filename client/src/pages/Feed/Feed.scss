@@ -1,0 +1,36 @@
+@use '../../styles/partials/mixins' as *;
+@use '../../styles/partials/typography' as *;
+@use '../../styles/partials/variables' as *;
+
+.feed {
+  margin: 4rem $mobile-spacing;
+  &__container {
+    margin: 2rem 0;
+  }
+  &__card {
+    margin-bottom: 1rem;
+  }
+  &__img {
+    display: flex;
+    width: 90%;
+    margin: 1rem auto;
+  }
+  &__user-container {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.3rem solid black;
+  }
+  &__avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+  }
+  &__resto-name {
+    font-size: $td-table-header;
+    font-weight: 500;
+  }
+}

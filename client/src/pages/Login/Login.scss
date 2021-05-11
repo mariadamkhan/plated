@@ -27,8 +27,8 @@
   &__input {
     box-sizing: border-box;
     font-family: "Montserrat";
-    width: 250px;
-    height: 30px;
+    width: 25rem;
+    height: 3rem;
     border: none;
     border-bottom: 0.5rem solid #000000;
     font-weight: 300;
@@ -41,7 +41,7 @@
     border-bottom: 5px solid $inter-color;
   }
   &__login {
-      width: 25rem;
+    width: 25rem;
     height: 4rem;
     line-height: 3rem;
     padding: 0 2rem;
@@ -73,9 +73,9 @@
     font-weight: 600;
     padding-left: $tiny;
   }
-}
 
-.error__message {
+  &__error {
     color: $error;
-    text-align: center;
+    font-size: $td-table-header;
+  }
 }

@@ -13,9 +13,7 @@ import defaultAvatar from "../../assets/images/user.svg";
 import exit from "../../assets/icons/exit.svg";
 
 const Profile = () => {
-  const { userData, getRestaurantDetails, restDetails } = useContext(
-    firebaseContext
-  );
+  const { userData } = useContext(firebaseContext);
   const ready = Boolean(userData?.userInfo);
 
   return !ready ? null : (
@@ -27,14 +25,11 @@ export default Profile;
 
 function ProfileContent({ userInfo }) {
   const history = useHistory();
-const [searchString, setSearchString] = useState("")
+  const [searchString, setSearchString] = useState("");
 
   const {
     userData,
-    getRestaurantDetails,
-    restDetails,
     signOutUser,
-  
     profileRestosList,
     setProfileRestosList,
   } = useContext(firebaseContext);
@@ -55,12 +50,10 @@ const [searchString, setSearchString] = useState("")
       getManyRestaurantDetails(userData.userInfo.restoList).then((resp) => {
         console.log(resp);
         setProfileRestosList(resp);
-      
       });
     }
   }, [userData]);
   console.log(profileRestosList);
-
 
   //logout handle
   async function handleLogOut() {
@@ -72,7 +65,7 @@ const [searchString, setSearchString] = useState("")
       console.log("Sign Out Unsuccesful");
     }
   }
-
+  
   return (
     <>
       {/* profile section, incl image + user data */}
@@ -110,13 +103,19 @@ const [searchString, setSearchString] = useState("")
           </div>
         </div>
         <ProfileNav />
-        <SearchField {...{searchString,setSearchString}}/>
+        <SearchField {...{ searchString, setSearchString }} />
 
         {/* restaurant posts */}
         <div className="profile__post">
           {[...profileRestosList]
             .sort((a, b) => b.uploadCreated.seconds - a.uploadCreated.seconds)
-            .filter(resto=>!searchString || JSON.stringify(resto)?.toLowerCase().includes(searchString.toLowerCase()))
+            .filter(
+              (resto) =>
+                !searchString ||
+                JSON.stringify(resto)
+                  ?.toLowerCase()
+                  .includes(searchString.toLowerCase())
+            )
             .map((resto) => {
               return (
                 <Link

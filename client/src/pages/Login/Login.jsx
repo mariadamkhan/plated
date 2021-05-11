@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import logo from "../../assets/images/plated-logo.PNG";
 import "./Login.scss";
@@ -7,35 +7,34 @@ import { firebaseContext } from "../../provider/FirebaseProvider";
 
 function Login() {
   const { signInUser } = useContext(firebaseContext);
-const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     document.title = "Plated Login";
   }, []);
 
-const handleSignin = async(event)=>{
-  event.preventDefault()
-signInUser(event).then((resp)=>{setError(null)}).catch(err=>{
-console.log("🚀 ~ file: Login.jsx ~ line 20 ~ signInUser.then ~ err", err)
-
-  
-  setError("bad username or password")
-})
-}
+  const handleSignin = async (event) => {
+    event.preventDefault();
+    signInUser(event)
+      .then((resp) => {
+        setError(null);
+      })
+      .catch((err) => {
+        setError("Wrong username or password");
+      });
+  };
 
   return (
     <section className="login">
       <img src={logo} alt="Plated Logo" className="login__logo"></img>
       <div className="login__container">
         <form className="login__form" name="loginForm" onSubmit={handleSignin}>
-          {error && 
-          <div className="input__error">{error}</div>}
+          {error && <div className="login__error">{error}</div>}
           <input
             className="login__input"
             name="emailEntry"
             type="email"
             placeholder="Email"
-           
           />
           <input
             className="login__input"
@@ -51,7 +50,7 @@ console.log("🚀 ~ file: Login.jsx ~ line 20 ~ signInUser.then ~ err", err)
       <div className="login__sign-up-container">
         <p className="login__sign-up">
           Don't have an account?{` `}
-          <Link className="login__link" to={'/signup'}>
+          <Link className="login__link" to={"/signup"}>
             Sign up
           </Link>
         </p>
