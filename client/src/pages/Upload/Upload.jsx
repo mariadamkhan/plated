@@ -29,7 +29,8 @@ export default function Upload() {
       <form
         className="upload__form"
         name="upload"
-        onSubmit={(e) => {uploadResto(e, imageAsFile)
+        onSubmit={(e) => {
+          uploadResto(e, imageAsFile);
         }}
       >
         <div className="upload__left-container">

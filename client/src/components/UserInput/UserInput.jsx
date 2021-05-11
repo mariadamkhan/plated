@@ -1,7 +1,7 @@
 import React from "react";
-import './UserInput.scss';
+import "./UserInput.scss";
 
-const UserInput = ({ label, name, placeholder, onChange, error }) => {
+const UserInput = ({ label, name, placeholder, error }) => {
   return (
     <>
       <div className="input">
@@ -13,7 +13,6 @@ const UserInput = ({ label, name, placeholder, onChange, error }) => {
           name={name}
           className={error ? "input__error" : "input__input"}
           placeholder={placeholder}
-          onChange={onChange}
         ></input>
       </div>
       {error && (

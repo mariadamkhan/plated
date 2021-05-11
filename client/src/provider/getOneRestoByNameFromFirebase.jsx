@@ -12,7 +12,6 @@ export function getOneRestoByNameFromFirebase(restoNameKebab, resolve) {
           console.error("doc doesn't exist!");
         }
         const data = doc.data();
-
         // get me the one that...?
         const isTheOneWeWant = kebabCase(data.restoName) === restoNameKebab;
         // we found it!
